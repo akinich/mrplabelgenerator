@@ -46,16 +46,20 @@ if uploaded_file:
 
             for _, row in df.iterrows():
                 item_name = str(row['Item Name']).strip()
-                net_weight = str(row['Net Weight']).strip()
-                mrp = f"MRP: ₹{row['MRP']:.2f}" if not pd.isnull(row['MRP']) else "MRP: -"
+                
+                # Capitalize the 'g' in net weight
+                net_weight = str(row['Net Weight']).strip().replace('g', 'G')
+                
+                # Hardcode M.R.P prefix
+                mrp_text = f"M.R.P : Rs. {row['MRP']:.2f}" if not pd.isnull(row['MRP']) else "M.R.P : Rs. -"
 
                 # --- Draw Text ---
                 c.setFont("Courier-Bold", font_size + 2)  # Slightly larger for item name
                 c.drawCentredString(PDF_WIDTH / 2, PDF_HEIGHT - 8 * mm, item_name)
 
                 c.setFont("Courier-Bold", font_size)
-                c.drawCentredString(PDF_WIDTH / 2, PDF_HEIGHT - 15 * mm, f"Net Wt: {net_weight}")
-                c.drawCentredString(PDF_WIDTH / 2, PDF_HEIGHT - 22 * mm, mrp)
+                c.drawCentredString(PDF_WIDTH / 2, PDF_HEIGHT - 15 * mm, f"NET WT : {net_weight}")
+                c.drawCentredString(PDF_WIDTH / 2, PDF_HEIGHT - 22 * mm, mrp_text)
 
                 # End of page
                 c.showPage()
